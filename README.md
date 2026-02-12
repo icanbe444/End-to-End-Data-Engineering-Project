@@ -1,3 +1,8 @@
+![Azure](https://img.shields.io/badge/Azure-Data%20Engineering-blue)
+![Databricks](https://img.shields.io/badge/Databricks-Spark-orange)
+![ADF](https://img.shields.io/badge/ADF-Pipelines-green)
+![Synapse](https://img.shields.io/badge/Synapse-Warehouse-purple)
+
 
 # End-to-End Azure Data Engineering Project
 
