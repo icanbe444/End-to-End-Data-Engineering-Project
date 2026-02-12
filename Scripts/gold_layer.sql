@@ -110,6 +110,8 @@ FROM
 -- which is sitting in the blob container storage lake
 ------------------------------------------------------------------------------------------------------
 
+CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'password'
+
 
 CREATE DATABASE SCOPED CREDENTIAL cred_dulla
 WITH 
