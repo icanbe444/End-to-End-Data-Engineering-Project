@@ -94,6 +94,7 @@ The list of files to ingest dynamically is controlled by `git.json` located in:
 This file is read by the Lookup activity and passed into the ForEach loop to automate ingestion.
 
 ---
+![ADF Static Pipeline](images/adf-static-pipeline.png)
 
 # Phase 2 — Silver Layer (Transformation with Databricks)
 
@@ -127,6 +128,7 @@ spark.conf.set(f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.c
 ```python
 df = spark.read.format('csv')     .option("header", True)     .option("inferSchema", True)     .load('abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Calendar')
 ```
+![AADF DynamicCopy + ForEach](adf-dynamic-pipeline.png)
 
 ### Writing to Silver (Parquet)
 
@@ -136,7 +138,7 @@ df.write.format('parquet')   .mode('append')   .option('path','abfss://silver@<s
 Transformation logic can be found in the Databricks notebook located in this repository under the Silver Layer scripts.
 
 ---
-
+![Data Lake containers](datalake-containers.png)
 # Phase 3 — Gold Layer (Synapse Analytics)
 
 ### Setup
@@ -144,6 +146,7 @@ Transformation logic can be found in the Databricks notebook located in this rep
 - Configured SQL admin credentials
 - Assigned Managed Identity access to Data Lake
 
+![Synapse SQL scripts](synapse-gold.png)
 ### Creating Views from Silver
 
 ```sql
