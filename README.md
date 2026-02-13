@@ -5,6 +5,9 @@
 
 
 # End-to-End Azure Data Engineering Project
+> Data source: Adventure Works dataset  
+> Repository: End-to-End-Data-Engineering-Project  
+> Author: Dulla
 
 This project demonstrates how to design and implement a complete modern data pipeline using:
 
@@ -18,7 +21,7 @@ The goal is to show how raw data flows through a structured lakehouse architectu
 
 ---
 
-## What You Will Learn
+## Takeaway from this exercise
 
 - How to design and implement a robust data pipeline using Azure Data Factory
 - The process of data integration and transformation with Databricks
@@ -27,31 +30,23 @@ The goal is to show how raw data flows through a structured lakehouse architectu
 - Practical implementation of Bronze → Silver → Gold architecture
 
 ---
-
 ## Architecture Overview
 
-```
-GitHub (Raw CSV Files)
-        |
-        v
-Azure Data Factory (HTTP Ingestion)
-        |
-        v
-Azure Data Lake Gen2 (Bronze)
-        |
-        v
-Databricks (Transformation)
-        |
-        v
-Azure Data Lake Gen2 (Silver)
-        |
-        v
-Azure Synapse (Gold Layer Views & Tables)
-        |
-        v
-Power BI
-```
-
+Data Source (GitHub CSV Files)
+        ↓
+Azure Data Factory (GitToRaw & DynamicCopy Pipelines)
+        ↓
+Azure Data Lake Gen2
+   ├── bronze
+   ├── silver
+   ├── gold
+   └── parameter (git.json)
+        ↓
+Azure Databricks (Silver Layer Transformations)
+        ↓
+Azure Synapse Analytics (Gold Views & External Tables)
+        ↓
+Power BI Dashboard
 ---
 
 # Phase 1 — Bronze Layer (Ingestion with ADF)
@@ -92,6 +87,11 @@ Example dynamic expression:
 @activity('LookupGit').output.value
 @item().p_relurl
 ```
+The list of files to ingest dynamically is controlled by `git.json` located in:
+
+/parameter/git.json
+
+This file is read by the Lookup activity and passed into the ForEach loop to automate ingestion.
 
 ---
 
@@ -133,6 +133,7 @@ df = spark.read.format('csv')     .option("header", True)     .option("inferSche
 ```python
 df.write.format('parquet')   .mode('append')   .option('path','abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Calendar')   .save()
 ```
+Transformation logic can be found in the Databricks notebook located in this repository under the Silver Layer scripts.
 
 ---
 
@@ -168,6 +169,9 @@ FROM OPENROWSET(
 - Built dashboards from Gold layer tables
 
 ---
+All SQL scripts for creating views and external tables are available in:
+
+gold_layer.sql
 
 # Cost Optimization & Alternatives
 
@@ -196,13 +200,15 @@ FROM OPENROWSET(
 
 ---
 
-## Suggested Images to Add
+## Challenges Faced During Implementation
 
-- ADF pipeline canvas screenshot
-- Data Lake containers view
-- Databricks notebook transformation
-- Synapse SQL view creation
-- Power BI dashboard
+While implementing this project, several real-world cloud engineering challenges were encountered:
 
-(Add screenshots in the repo and reference them here)
+- Databricks authentication with ADLS (OAuth, Secret Scopes, RBAC)
+- Serverless vs Classic compute limitations
+- Key Vault and Managed Identity configuration
+- Dynamic parameter passing in ADF pipelines
+- Cost management as no resource in the cloud, is free
+
+
 
