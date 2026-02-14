@@ -128,7 +128,7 @@ spark.conf.set(f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.c
 ```python
 df = spark.read.format('csv')     .option("header", True)     .option("inferSchema", True)     .load('abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Calendar')
 ```
-![ADF DynamicCopy + ForEach](adf-dynamic-pipeline.png)
+![ADF DynamicCopy + ForEach](images/adf-dynamic-pipeline.png)
 
 ### Writing to Silver (Parquet)
 
@@ -138,7 +138,7 @@ df.write.format('parquet')   .mode('append')   .option('path','abfss://silver@<s
 Transformation logic can be found in the Databricks notebook located in this repository under the Silver Layer scripts.
 
 ---
-![Data Lake containers](datalake-containers.png)
+![Data Lake containers](images/datalake-containers.png)
 # Phase 3 — Gold Layer (Synapse Analytics)
 
 ### Setup
@@ -146,7 +146,7 @@ Transformation logic can be found in the Databricks notebook located in this rep
 - Configured SQL admin credentials
 - Assigned Managed Identity access to Data Lake
 
-![Synapse SQL script](synapse-gold.png)
+![Synapse SQL script](images/synapse-gold.png)
 ### Creating Views from Silver
 
 ```sql
