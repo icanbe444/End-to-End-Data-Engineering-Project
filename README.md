@@ -32,22 +32,29 @@ The goal is to show how raw data flows through a structured lakehouse architectu
 ---
 ## Architecture Overview
 
-Data Source (GitHub CSV Files)
-        ↓
-Azure Data Factory (GitToRaw & DynamicCopy Pipelines)
-        ↓
-Azure Data Lake Gen2
-   ├── bronze
-   ├── silver
-   ├── gold
-   └── parameter (git.json)
-        ↓
-Azure Databricks (Silver Layer Transformations)
-        ↓
-Azure Synapse Analytics (Gold Views & External Tables)
-        ↓
-Power BI Dashboard
----
+- **Data Source**
+  - GitHub (Adventure Works CSV files)
+
+- **Ingestion Layer**
+  - Azure Data Factory
+    - GitToRaw (Static pipeline)
+    - DynamicCopy (Parameterized + ForEach)
+
+- **Storage Layer (ADLS Gen2)**
+  - bronze
+  - silver
+  - gold
+  - parameter (git.json)
+
+- **Processing Layer**
+  - Azure Databricks (Apache Spark transformations)
+
+- **Serving Layer**
+  - Azure Synapse Analytics (External tables & views)
+
+- **Visualization**
+  - Power BI
+
 
 # Phase 1 — Bronze Layer (Ingestion with ADF)
 
