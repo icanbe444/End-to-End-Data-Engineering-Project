@@ -128,7 +128,7 @@ spark.conf.set(f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.c
 ```python
 df = spark.read.format('csv')     .option("header", True)     .option("inferSchema", True)     .load('abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Calendar')
 ```
-![AADF DynamicCopy + ForEach](adf-dynamic-pipeline.png)
+![ADF DynamicCopy + ForEach](adf-dynamic-pipeline.png)
 
 ### Writing to Silver (Parquet)
 
@@ -146,7 +146,7 @@ Transformation logic can be found in the Databricks notebook located in this rep
 - Configured SQL admin credentials
 - Assigned Managed Identity access to Data Lake
 
-![Synapse SQL scripts](synapse-gold.png)
+![Synapse SQL script](synapse-gold.png)
 ### Creating Views from Silver
 
 ```sql
